@@ -46,10 +46,14 @@ public class MecanumTeleOp extends LinearOpMode {
             motorFrontRight.setPower(frontRightPower);
             motorBackRight.setPower(backRightPower);
             
-            if (gamepad1.a) {
-                carouselservo.setPosition(1);
-            } else if (gamepad1.x) {
+            //Carousel
+            if (gamepad1.a) { //Turn anticlockwise
+                carouselservo.setPosition(1); 
+            } else if (gamepad1.x) { // Stop
                 carouselservo.setPosition(0.5);
+            }
+            else if (gamepad1.b) { //Turn Clockwise
+                carouselservo.setPosition(0);
             }
         }
     }
