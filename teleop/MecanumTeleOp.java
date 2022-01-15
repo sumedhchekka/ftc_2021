@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
@@ -17,13 +18,22 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightfront");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("rightback");
         Servo   carouselservo = hardwareMap.get(Servo.class, "carouselservo");
+        DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        
+        arm.setDirection(DcMotorEx.Direction.REVERSE);
+        
+        // Reset the encoder during initialization for arm
 
         waitForStart();
+        
+        
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         if (isStopRequested()) return;
 
@@ -54,6 +64,27 @@ public class MecanumTeleOp extends LinearOpMode {
             }
             else if (gamepad1.b) { //Turn Clockwise
                 carouselservo.setPosition(0);
+            }
+            
+            //Arm 
+
+            
+            if (gamepad2.y) { //set the arm to top level
+              
+                arm.setTargetPosition(160);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(200);
+              
+            } else if (gamepad2.b) { //set the arm to the medium level
+                arm.setTargetPosition(90);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(200);            
+            } else if (gamepad2.a) { //set the arm to the low level
+                arm.setTargetPosition(30);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(200);            
+            } else if (gamepad2.x) { //reset
+              arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
     }
