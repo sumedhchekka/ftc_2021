@@ -18,6 +18,7 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightfront");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("rightback");
         Servo   carouselservo = hardwareMap.get(Servo.class, "carouselservo");
+        Servo   intakeservo = hardwareMap.get(Servo.class, "intakeserv");
         DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
 
         // Reverse the right side motors
@@ -69,23 +70,44 @@ public class MecanumTeleOp extends LinearOpMode {
             //Arm 
 
             
-            if (gamepad2.y) { //set the arm to top level
-              
-                arm.setTargetPosition(160);
+            if (gamepad2.dpad_up) { //set the arm to top level
+                //reset encoder
+                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                
+                arm.setTargetPosition(140);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setVelocity(200);
               
-            } else if (gamepad2.b) { //set the arm to the medium level
+            } else if (gamepad2.dpad_right) { //set the arm to the medium level
+                //reset encoder
+                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                
                 arm.setTargetPosition(90);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setVelocity(200);            
-            } else if (gamepad2.a) { //set the arm to the low level
+            } else if (gamepad2.dpad_down) { //set the arm to the low level
+                //reset encoder
+                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                
                 arm.setTargetPosition(30);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setVelocity(200);            
-            } else if (gamepad2.x) { //reset
+            } else if (gamepad2.dpad_left) { //reset
               arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
+            
+            //intake
+            if (gamepad2.a) { //Turn anticlockwise
+                intakeservo.setPosition(1); 
+            } else if (gamepad2.x) { // Stop
+                intakeservo.setPosition(0.5);
+            }
+            else if (gamepad2.b) { //Turn Clockwise
+                intakeservo.setPosition(0);
+            }
+            
+            
+            
         }
     }
 }
