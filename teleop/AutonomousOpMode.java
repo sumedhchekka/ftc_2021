@@ -14,9 +14,9 @@ public class AutonomousOpMode extends LinearOpMode {
   private DcMotor motorBackLeft;
   private DcMotor motorFrontRight;
   private DcMotor motorBackRight;
-  private Servo   carouselservo = hardwareMap.get(Servo.class, "carouselservo");
-  private Servo   intakeservo = hardwareMap.get(Servo.class, "intakeserv");
-  private DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
+  private Servo   carouselservo;
+  private Servo   intakeservo;
+  private DcMotorEx arm;
   
   //Convert from the counts per revolution of the encoder to counts per inch
   static final double HD_COUNTS_PER_REV = 28;
@@ -43,11 +43,27 @@ public class AutonomousOpMode extends LinearOpMode {
     
     waitForStart();
     if (opModeIsActive()) {
+      
+      
+      
       // Create target positions
       int rightfrontTarget = motorFrontRight.getCurrentPosition() + (int)(30 * DRIVE_COUNTS_PER_IN);
       int leftfrontTarget = motorFrontLeft.getCurrentPosition() + (int)(30 * DRIVE_COUNTS_PER_IN);
       int rightbackTarget = motorBackRight.getCurrentPosition() + (int)(30 * DRIVE_COUNTS_PER_IN);
       int leftbackTarget = motorBackLeft.getCurrentPosition() + (int)(30 * DRIVE_COUNTS_PER_IN);
+     
+      //set the arm to the medium level
+      arm.setDirection(DcMotorEx.Direction.REVERSE);
+      arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+      arm.setTargetPosition(90);
+      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      arm.setVelocity(200);    
+      
+      //while(arm.isBusy()){
+        
+      //}
+      //intake //Turn clockwise
+     //intakeservo.setPosition(1);
       
       // set target position
       motorBackLeft.setTargetPosition(leftbackTarget);
@@ -66,16 +82,21 @@ public class AutonomousOpMode extends LinearOpMode {
       motorBackRight.setPower(0.7);
       motorFrontLeft.setPower(0.7);
       motorFrontRight.setPower(0.7);
+    
+      while(arm.isBusy()) {}
+      intakeservo.setPosition(0);
       
       // wait until both motors are no longer busy running to position
       while (opModeIsActive() && (motorBackLeft.isBusy() || motorBackRight.isBusy())) {
       }
       
       // set motor power back to 0 
+       
+      } 
+      
       motorBackLeft.setPower(0);
       motorBackRight.setPower(0);
       motorFrontLeft.setPower(0);
       motorFrontRight.setPower(0);
-        }
      }
  }
