@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode;
-
+ 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+ 
 @TeleOp
 public class MecanumTeleOp extends LinearOpMode {
     @Override
@@ -20,7 +20,7 @@ public class MecanumTeleOp extends LinearOpMode {
         Servo   carouselservo = hardwareMap.get(Servo.class, "carouselservo");
         Servo   intakeservo = hardwareMap.get(Servo.class, "intakeserv");
         DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
-
+ 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -29,29 +29,29 @@ public class MecanumTeleOp extends LinearOpMode {
         arm.setDirection(DcMotorEx.Direction.REVERSE);
         
         // Reset the encoder during initialization for arm
-
+ 
         waitForStart();
         
         
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
+ 
+ 
         if (isStopRequested()) return;
-
+ 
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
-
+ 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio, but only when
             // at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 0.7);
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 2.0);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
-
+ 
             motorFrontLeft.setPower(frontLeftPower);
             motorBackLeft.setPower(backLeftPower);
             motorFrontRight.setPower(frontRightPower);
@@ -68,32 +68,36 @@ public class MecanumTeleOp extends LinearOpMode {
             }
             
             //Arm 
-
+            
+            int armPosition = 0;
+ 
             
             if (gamepad2.dpad_up) { //set the arm to top level
                 //reset encoder
-                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
-                
+               // arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                armPosition = 140;
                 arm.setTargetPosition(140);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                arm.setVelocity(200);
+                arm.setVelocity(400);
               
             } else if (gamepad2.dpad_right) { //set the arm to the medium level
                 //reset encoder
-                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
-                
+                //arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                armPosition = 90;
                 arm.setTargetPosition(90);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                arm.setVelocity(200);            
+                arm.setVelocity(400);            
             } else if (gamepad2.dpad_down) { //set the arm to the low level
                 //reset encoder
-                arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
-                
+                //arm.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                armPosition = 30;
                 arm.setTargetPosition(30);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                arm.setVelocity(200);            
+                arm.setVelocity(400);            
             } else if (gamepad2.dpad_left) { //reset
-              arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+              arm.setTargetPosition(-armPosition);
+              arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              arm.setVelocity(175); 
             }
             
             //intake
