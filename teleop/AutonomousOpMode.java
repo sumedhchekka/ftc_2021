@@ -24,7 +24,7 @@ public class AutonomousOpMode extends LinearOpMode {
   static final double WHEEL_CIRCUMFERENCE_MM = 100 * Math.PI;
   static final double DRIVE_COUNTS_PER_MM = (HD_COUNTS_PER_REV * DRIVE_GEAR_REDUCTION) / WHEEL_CIRCUMFERENCE_MM;
   static final double DRIVE_COUNTS_PER_IN = DRIVE_COUNTS_PER_MM * 25.4;
-  static final double DRIVE_COUNTS_PER_ANGLE = 10.0; // Mesure and retune ?
+  static final double DRIVE_COUNTS_PER_ANGLE = 11; // Mesure and retune ?
     
   @Override
   public void runOpMode() {
@@ -50,7 +50,7 @@ public class AutonomousOpMode extends LinearOpMode {
     waitForStart();
     if (opModeIsActive()) {
      
-      autoOpFromBlueWH();
+      //autoOpFromBlueWH();
       //autoOpFromBlueSA();
       //autoOpFromRedWH();
       //autoOpFromRedSA();
@@ -75,15 +75,17 @@ public class AutonomousOpMode extends LinearOpMode {
       arm.setVelocity(200);
       
       //strafing right
-      strafeLeft(-24, 0.7, true);
+      strafeLeft(-24, 0.5, true);
       
        //moving forward
       moveForward(17, 0.7, true);
       
       while(arm.isBusy()) {}
       intakeservo.setPosition(0);
+      
+      sleep(1500);
        
-      // start intake
+      // stop intake
       intakeservo.setPosition(0.5);
       
       // reset arm
@@ -91,10 +93,11 @@ public class AutonomousOpMode extends LinearOpMode {
       arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
       arm.setVelocity(100);
       
-      turnClockwise(90, 0.7, true);
+      turnClockwise(-90, 0.7, true);
       
       //moving forward
-      moveForward(48, 0.7, false);
+      moveForward(72,1, false);
+      
    }
    
    private void autoOpFromBlueSA()
