@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode;
- 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
- 
+
 @Autonomous
 public class AutonomousOpMode extends LinearOpMode {
- 
+
   private DcMotor motorFrontLeft;
   private DcMotor motorBackLeft;
   private DcMotor motorFrontRight;
@@ -36,10 +36,12 @@ public class AutonomousOpMode extends LinearOpMode {
     carouselservo = hardwareMap.get(Servo.class, "carouselservo");
     intakeservo = hardwareMap.get(Servo.class, "intakeserv");
     arm = hardwareMap.get(DcMotorEx.class, "arm");
- 
-    // reverse left drive motor direciton
+
+    // setting forward
     motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-    motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);    
+    motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+    motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+    motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
     
     // arm setup
     arm.setDirection(DcMotorEx.Direction.REVERSE);
@@ -48,29 +50,10 @@ public class AutonomousOpMode extends LinearOpMode {
     waitForStart();
     if (opModeIsActive()) {
      
-      //set the arm to the medium level
-      arm.setTargetPosition(90);
-      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-      arm.setVelocity(200);
-      
-      moveForward(30, 0.7, false);
-      
-      while(arm.isBusy()) {}
-      intakeservo.setPosition(0);
-    
-      sleep(1500);
-       
-      // stop intake
-      intakeservo.setPosition(0.5);
-      
-      // reset arm
-      arm.setTargetPosition(-90);
-      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-      arm.setVelocity(100);
-      
-      turnClockwise(-90, 0.7, true);
-      
-      moveForward(30, 0.7, false);
+      autoOpFromBlueWH();
+      //autoOpFromBlueSA();
+      //autoOpFromRedWH();
+      //autoOpFromRedSA();
       
       while (opModeIsActive()
             && (motorBackLeft.isBusy() 
@@ -79,9 +62,116 @@ public class AutonomousOpMode extends LinearOpMode {
                   || motorFrontRight.isBusy())) {}
      
       
-      //yuh// set motor power back to 0 
+      // set motor power back to 0 
        
      }
+   }
+   
+   private void autoOpFromBlueWH()
+   {
+     //set the arm to the medium level
+      arm.setTargetPosition(110);
+      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      arm.setVelocity(200);
+      
+      //strafing right
+      strafeLeft(-24, 0.7, true);
+      
+       //moving forward
+      moveForward(17, 0.7, true);
+      
+      while(arm.isBusy()) {}
+      intakeservo.setPosition(0);
+       
+      // start intake
+      intakeservo.setPosition(0.5);
+      
+      // reset arm
+      arm.setTargetPosition(0);
+      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      arm.setVelocity(100);
+      
+      turnClockwise(90, 0.7, true);
+      
+      //moving forward
+      moveForward(48, 0.7, false);
+   }
+   
+   private void autoOpFromBlueSA()
+   {
+       //carousel servo start
+     carouselservo.setPosition(1);
+     
+     //move backward
+     moveForward(-18,0.7,true);
+     
+     //carousel servo stop
+     carouselservo.setPosition(0.5);
+     
+     sleep(500);
+     
+     
+     //strafe right
+     strafeLeft(-24,0.5,false);
+     
+       
+     
+   }
+   
+   private void autoOpFromRedWH()
+   {
+      //set the arm to the medium level
+      arm.setTargetPosition(110);
+      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      arm.setVelocity(200);
+      
+      //strafing left
+      strafeLeft(24, 0.7, true);
+      
+      //moving forward
+      moveForward(17, 0.7, true);
+      
+      while(arm.isBusy()) {}
+      intakeservo.setPosition(0);
+       
+      //stop intake
+      intakeservo.setPosition(0.5);
+      
+      // reset arm
+      arm.setTargetPosition(0);
+      arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      arm.setVelocity(100);
+      
+      turnClockwise(90, 0.7, true);
+      
+      //moving forward
+      moveForward(48, 0.7, false); 
+     
+   }
+   
+   private void autoOpFromRedSA()
+   {
+     //carousel servo start
+     carouselservo.setPosition(1);
+     
+     //move backward
+     moveForward(-18,0.7,true);
+     
+     //carousel servo stop
+     carouselservo.setPosition(0.5);
+     
+     sleep(500);
+     
+     
+     //strafe right
+     strafeLeft(-24,0.5,false);
+
+     
+     
+     
+     
+     
+     
    }
    
    private void moveDrivetrain(int rightfrontChange, int leftfrontChange,
