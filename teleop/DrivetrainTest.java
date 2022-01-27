@@ -22,7 +22,6 @@ public class DrivetrainTest extends LinearOpMode {
         DcMotorEx arm = hardwareMap.get(DcMotorEx.class, "arm");
 
         // Reverse the right side motors
-        // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         
@@ -46,7 +45,7 @@ public class DrivetrainTest extends LinearOpMode {
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio, but only when
             // at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1.0);
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 2.0);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;

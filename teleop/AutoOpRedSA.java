@@ -26,28 +26,30 @@ public class AutoOpRedSA extends RobotOp
        
         }
     }
+    
+//place robot arm facing forward
 
     private void autoOpFromRedSA()
     {
-        //move forward
-        moveForward(10,0.7,true);
-        
-        //strafing left
-        strafeLeft(20,0.5,true);
-        
-        //carousel servo start
+       //move forward
+       moveForward(6,0.3,true);
+       
+       strafeLeft(23,0.3, true);
+       
+       //carousel servo start
         carouselservo.setPosition(1);
         
-        sleep(2000);
+        sleep(5600);
         
         //carousel servo stop
         carouselservo.setPosition(0.5);
-     
-        //move forward
-        moveForward(24,0.7,true);
         
-        //strafing left
-        strafeLeft(20,0.5,true);
-            }
+        //move forward
+        moveForward(22,0.3,true);
+        
+        //strafe left
+         strafeLeft(4,0.3, true);
+
+    }
 }
        
