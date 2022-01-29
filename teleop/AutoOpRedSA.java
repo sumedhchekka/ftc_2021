@@ -32,9 +32,9 @@ public class AutoOpRedSA extends RobotOp
     private void autoOpFromRedSA()
     {
        //move forward
-       moveForward(6,0.3,true);
+       moveForward(5,0.3,true);
        
-       strafeLeft(23,0.3, true);
+       strafeLeft(25,0.3, true);
        
        //carousel servo start
         carouselservo.setPosition(1);
@@ -45,7 +45,7 @@ public class AutoOpRedSA extends RobotOp
         carouselservo.setPosition(0.5);
         
         //move forward
-        moveForward(22,0.3,true);
+        moveForward(20,0.3,true);
         
         //strafe left
          strafeLeft(4,0.3, true);

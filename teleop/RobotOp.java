@@ -47,6 +47,14 @@ public abstract class RobotOp  extends LinearOpMode {
     
         waitForStart();
     }
+    
+    public void setDTPowerToZero()
+    {
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorFrontRight.setPower(0);
+    }
    
     public void moveDrivetrain(int rightfrontChange, int leftfrontChange,
                                 int rightbackChange, int leftbackChange,

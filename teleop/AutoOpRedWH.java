@@ -51,7 +51,7 @@ public class AutoOpRedWH extends RobotOp
         turnClockwise(85, 0.7, true);
         
         //strafing left
-        strafeLeft(5,0.5, true);
+        //strafeLeft(5,0.5, true);
       
         //moving forward
         moveForward(70,1.0, false);

@@ -49,8 +49,8 @@ public class AutoOpBlueWH extends RobotOp
         turnClockwise(-85, 0.7, true);
         
         //strafing right
-        strafeLeft(-4,0.5, true);
-      
+        //strafeLeft(-4,0.5, true);
+     
         //moving forward
         moveForward(70, 1.0, false);
     }
